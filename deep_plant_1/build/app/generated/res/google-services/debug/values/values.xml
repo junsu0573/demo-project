@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">840320465373-p8akrn443uv2kjeagrn73tvlu9m1lcvg.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">840320465373</string>
+    <string name="google_api_key" translatable="false">AIzaSyCe0dxWmbKNRqJgzCUUuaNN6tuwCqxS4Eg</string>
+    <string name="google_app_id" translatable="false">1:840320465373:android:8c09553a2277c6a1621e34</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyCe0dxWmbKNRqJgzCUUuaNN6tuwCqxS4Eg</string>
+    <string name="google_storage_bucket" translatable="false">deep-plant-demo.appspot.com</string>
+    <string name="project_id" translatable="false">deep-plant-demo</string>
+</resources>
