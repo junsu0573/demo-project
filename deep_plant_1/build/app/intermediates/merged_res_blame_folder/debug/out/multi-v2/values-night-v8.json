@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.deep_plant_1.app-mergeDebugResources-14:/values-night-v8/values-night-v8.xml",
+            "outputFile": "com.example.deep_plant_1.app-mergeDebugResources-25:/values-night-v8/values-night-v8.xml",
             "map": [
                 {
                     "source": "/Users/jeonsyeon/appDev/demo_project/deep_plant_1/android/app/src/main/res/values-night/styles.xml",

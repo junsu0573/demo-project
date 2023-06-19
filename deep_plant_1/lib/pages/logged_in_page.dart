@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class LoggedInPage extends StatefulWidget {
   const LoggedInPage({super.key});
@@ -11,7 +15,9 @@ class LoggedInPage extends StatefulWidget {
 class _LoggedInPageState extends State<LoggedInPage> {
   final _authentication = FirebaseAuth.instance;
   User? loggedUser;
+  File? pickedImage;
 
+  // user 정보 가져오기
   void getCurrentUser() {
     try {
       final user = _authentication.currentUser;
@@ -21,6 +27,29 @@ class _LoggedInPageState extends State<LoggedInPage> {
     } catch (e) {
       print(e);
     }
+  }
+
+  // 이미지 촬영을 위한 메소드이다.
+  // ImagePicker()로 해당 메소드를 호출하고,
+  // 카메라를 source로 하여 촬영한다.
+  void _pickImage() async {
+    final imagePicker = ImagePicker();
+    final pickedImageFile = await imagePicker.pickImage(
+      source: ImageSource.camera,
+      imageQuality: 100,
+    );
+
+    setState(() {
+      if (pickedImageFile != null) {
+        // 만약 촬영한 이미지 파일이 존재한다면 해당 코드를 실행한다.
+        // pickedImage에 촬영한 이미지를 달아놓는다.
+        pickedImage = File(pickedImageFile.path);
+      }
+    });
+    // Firebase Storage의 저장 위치를 가리키는 변수를 생성하고 putFile()을 통해 촬영한 이미지를 해당 위치에 저장한다.
+    final refImage =
+        FirebaseStorage.instance.ref().child('picked_Image').child('.png');
+    await refImage.putFile(pickedImage!);
   }
 
   @override
@@ -48,59 +77,25 @@ class _LoggedInPageState extends State<LoggedInPage> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  margin: const EdgeInsets.all(2),
-                  width: 70, // 버튼의 가로 크기를 조정할 수 있습니다.
-                  height: 70, // 버튼의 세로 크기를 조정할 수 있습니다.
-                  color: Colors.blue, // 버튼의 배경색을 설정할 수 있습니다.
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 50,
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).primaryColor,
+                ),
+                child: const Icon(
+                  Icons.camera_alt,
+                  size: 30,
                 ),
               ),
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  margin: const EdgeInsets.all(2),
-                  width: 70, // 버튼의 가로 크기를 조정할 수 있습니다.
-                  height: 70, // 버튼의 세로 크기를 조정할 수 있습니다.
-                  color: Colors.red, // 버튼의 배경색을 설정할 수 있습니다.
-                ),
-              ),
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  margin: const EdgeInsets.all(2),
-                  width: 70, // 버튼의 가로 크기를 조정할 수 있습니다.
-                  height: 70, // 버튼의 세로 크기를 조정할 수 있습니다.
-                  color: Colors.yellow, // 버튼의 배경색을 설정할 수 있습니다.
-                ),
-              ),
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  margin: const EdgeInsets.all(2),
-                  width: 70, // 버튼의 가로 크기를 조정할 수 있습니다.
-                  height: 70, // 버튼의 세로 크기를 조정할 수 있습니다.
-                  color: Colors.black, // 버튼의 배경색을 설정할 수 있습니다.
-                ),
-              ),
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  margin: const EdgeInsets.all(2),
-                  width: 70, // 버튼의 가로 크기를 조정할 수 있습니다.
-                  height: 70, // 버튼의 세로 크기를 조정할 수 있습니다.
-                  color: Colors.green, // 버튼의 배경색을 설정할 수 있습니다.
-                ),
-              ),
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }
