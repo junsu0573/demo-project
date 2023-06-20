@@ -58,10 +58,6 @@ class _SignInState extends State<SignIn> {
     final currentContext = context;
 
     Future.delayed(Duration.zero, () {
-      // Navigator.pushReplacement(
-      //   currentContext,
-      //   MaterialPageRoute(builder: (context) => const LoggedInPage()),
-      // );
       currentContext.pushReplacement('/logged-in');
     });
   }

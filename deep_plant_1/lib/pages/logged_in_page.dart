@@ -17,6 +17,7 @@ class _LoggedInPageState extends State<LoggedInPage> {
   final _authentication = FirebaseAuth.instance;
   User? loggedUser;
   File? pickedImage;
+  bool isLoading = false;
 
   // user 정보 가져오기
   void getCurrentUser() {
@@ -41,6 +42,8 @@ class _LoggedInPageState extends State<LoggedInPage> {
     );
 
     setState(() {
+      isLoading = true;
+
       if (pickedImageFile != null) {
         // 만약 촬영한 이미지 파일이 존재한다면 해당 코드를 실행한다.
         // pickedImage에 촬영한 이미지를 달아놓는다.
@@ -53,6 +56,9 @@ class _LoggedInPageState extends State<LoggedInPage> {
         .child(loggedUser!.uid)
         .child('${DateTime.now()}.png');
     await refImage.putFile(pickedImage!);
+    setState(() {
+      isLoading = false;
+    });
 
     turnPage();
   }
@@ -111,6 +117,7 @@ class _LoggedInPageState extends State<LoggedInPage> {
                 ),
               ),
             ),
+            isLoading ? const CircularProgressIndicator() : Container(),
           ],
         ),
       ),
