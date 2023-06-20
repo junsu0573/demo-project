@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:deep_plant_1/pages/show_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -47,9 +48,13 @@ class _LoggedInPageState extends State<LoggedInPage> {
       }
     });
     // Firebase Storage의 저장 위치를 가리키는 변수를 생성하고 putFile()을 통해 촬영한 이미지를 해당 위치에 저장한다.
-    final refImage =
-        FirebaseStorage.instance.ref().child('picked_Image').child('.png');
+    final refImage = FirebaseStorage.instance
+        .ref()
+        .child(loggedUser!.uid)
+        .child('${DateTime.now()}.png');
     await refImage.putFile(pickedImage!);
+
+    turnPage();
   }
 
   @override
@@ -58,10 +63,20 @@ class _LoggedInPageState extends State<LoggedInPage> {
     getCurrentUser();
   }
 
+  void turnPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ShowImage(image: pickedImage),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false, // 돌아가기 버튼 제거
         backgroundColor: Theme.of(context).primaryColor,
         title: const Text('Login Succeed!'),
         actions: [
@@ -84,7 +99,9 @@ class _LoggedInPageState extends State<LoggedInPage> {
             SizedBox(
               height: 50,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  _pickImage();
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).primaryColor,
                 ),

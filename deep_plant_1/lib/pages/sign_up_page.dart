@@ -40,7 +40,7 @@ class _SignUpState extends State<SignUp> {
       if (userPw.length < 6 || userPw != userCPw) {
         throw Error();
       }
-      final newUser = await _authentication.createUserWithEmailAndPassword(
+      await _authentication.createUserWithEmailAndPassword(
           email: userId, password: userPw);
     } catch (e) {
       setState(() {

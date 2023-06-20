@@ -34,7 +34,7 @@ class _SignInState extends State<SignIn> {
 
     // 데이터를 가져오는 비동기 작업
     try {
-      final newUser = await _authentication.signInWithEmailAndPassword(
+      await _authentication.signInWithEmailAndPassword(
         email: userId,
         password: userPw,
       );
